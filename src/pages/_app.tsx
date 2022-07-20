@@ -1,4 +1,7 @@
-function MyApp({ Component, pageProps }) {
+import { AppProps } from "../../node_modules/next/app";
+import '../styles/global.scss';
+
+function MyApp({ Component, pageProps }: AppProps) {
   return <Component {...pageProps} />
 }
 
