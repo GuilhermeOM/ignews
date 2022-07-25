@@ -1,5 +1,5 @@
-import { GetStaticProps } from '../../node_modules/next/types/index'
-import Head from '../../node_modules/next/head';
+import { GetStaticProps } from 'next'
+import Head from 'next/head';
 import { SubscribeButton } from '../components/SubscribeButton/index';
 import styles from './home.module.scss';
 import { stripe } from '../services/stripe';
@@ -44,7 +44,7 @@ export const getStaticProps: GetStaticProps = async () => {
     amount: new Intl.NumberFormat('en-US', {
       style: 'currency',
       currency: 'USD',
-    }).format(price.unit_amount / 100),
+    }).format(price.unit_amount !== null ? price.unit_amount / 100 : 10),
   }
 
   return {
