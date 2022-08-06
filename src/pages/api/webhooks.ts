@@ -1,14 +1,14 @@
-import { NextApiRequest, NextApiResponse } from "next";
-import { Readable } from "stream";
-import Stripe from "stripe";
-import { stripe } from "../../services/stripe";
+import { NextApiRequest, NextApiResponse } from 'next';
+import { Readable } from 'stream';
+import Stripe from 'stripe';
+import { stripe } from '../../services/stripe';
 
 async function buffer(readable: Readable) {
   const chunks = [];
 
   for await (const chunk of readable) {
     chunks.push(
-      typeof chunk === "string" ? Buffer.from(chunk) : chunk
+      typeof chunk === 'string' ? Buffer.from(chunk) : chunk
     );
   }
 
