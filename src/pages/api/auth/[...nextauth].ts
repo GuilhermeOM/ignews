@@ -1,9 +1,9 @@
-import { query } from 'faunadb';
+import { query } from "faunadb";
 
-import NextAuth from 'next-auth/next';
-import GithubProvider from 'next-auth/providers/github';
+import NextAuth from "next-auth/next";
+import GithubProvider from "next-auth/providers/github";
 
-import { fauna } from '../../../services/fauna';
+import { fauna } from "../../../services/fauna";
 
 export default NextAuth({
   providers: [
@@ -13,26 +13,24 @@ export default NextAuth({
     }),
   ],
   callbacks: {
-    async signIn({user}) {
+    async signIn({ user }) {
       const { email } = user;
 
       try {
-        await fauna.query (
+        await fauna.query(
           query.If(
             query.Not(
               query.Exists(
                 query.Match(
-                  query.Index('user_by_email'),
+                  query.Index("user_by_email"),
                   query.Casefold(email as string)
                 )
               )
             ),
-            query.Create(
-              query.Collection('users'), { data: { email } }
-            ),
+            query.Create(query.Collection("users"), { data: { email } }),
             query.Get(
               query.Match(
-                query.Index('user_by_email'),
+                query.Index("user_by_email"),
                 query.Casefold(email as string)
               )
             )
@@ -43,6 +41,6 @@ export default NextAuth({
       }
 
       return true;
-    }
-  }
-})
+    },
+  },
+});

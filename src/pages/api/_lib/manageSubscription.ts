@@ -9,12 +9,9 @@ export async function saveSubscription(
 ) {
   const userRef = await fauna.query(
     query.Select(
-      'ref',
+      "ref",
       query.Get(
-        query.Match(
-          query.Index('user_by_stripe_customer_id'),
-          customerId
-        )
+        query.Match(query.Index("user_by_stripe_customer_id"), customerId)
       )
     )
   );
@@ -24,29 +21,26 @@ export async function saveSubscription(
     id: subscription.id,
     userId: userRef,
     status: subscription.status,
-    price_id: subscription.items.data[0].price.id
+    price_id: subscription.items.data[0].price.id,
   };
 
   if (createAction) {
     await fauna.query(
-      query.Create(
-        query.Collection('subscriptions'),
-        { data: subscriptionData }
-      )
+      query.Create(query.Collection("subscriptions"), {
+        data: subscriptionData,
+      })
     );
   } else {
     await fauna.query(
       query.Replace(
         query.Select(
-          'ref',
+          "ref",
           query.Get(
-            query.Match(
-              query.Index('subscription_by_id'),
-              subscriptionId
-            )
+            query.Match(query.Index("subscription_by_id"), subscriptionId)
           )
-        ), { data: subscriptionData }
+        ),
+        { data: subscriptionData }
       )
-    )
+    );
   }
 }
